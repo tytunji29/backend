@@ -14,6 +14,8 @@ export class UserService {
 
   async create(createUserDto: CreateUserDto): Promise<ResponseDto<User | null>> {
     //find by email and if it exist return record
+    createUserDto.email = createUserDto.email.toLowerCase().trim();
+    createUserDto.password = createUserDto.password.trim();
     const existingUser = await this.userRepository.findOne({
       where: { email: createUserDto.email },
     });
