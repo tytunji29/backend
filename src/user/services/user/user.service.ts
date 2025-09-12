@@ -5,12 +5,44 @@ import { User } from '../../../model/user.entity';
 import * as bcrypt from 'bcrypt';
 import { CreateUserDto } from '../../../model/dtos/create-user.dto';
 import { ResponseDto } from 'src/model/dtos/response.dto';
+import { UserVerification } from 'src/model/userverification';
 @Injectable()
 export class UserService {
   constructor(
     @InjectRepository(User)
-    private readonly userRepository: Repository<User>, // 👈 fixed
+    private readonly userRepository: Repository<User>, 
+    @InjectRepository(UserVerification)// 👈 fixed
+    private readonly userOtpRepository: Repository<UserVerification>, // 👈 fixed
   ) {}
+
+  async saveotp(userId: string, code: string): Promise<boolean> {
+    try {
+      await this.userOtpRepository.save({ userId, code });
+      return true;
+    } catch {
+      return false;
+    }
+  }
+//update password and delete otp
+  async updatePassword(userId: number, newPassword: string): Promise<boolean> {
+    try {
+      const user = await this.userRepository.findOne({ where: { id: userId } });
+      if (!user) return false;
+      user.password = await bcrypt.hash(newPassword, 10);
+      await this.userRepository.save(user);
+      await this.userOtpRepository.delete({ userId: userId.toString() });
+      return true;
+    } catch {
+      return false;
+    }
+  }
+
+  async findOtp(userId: string): Promise<string | null> {
+    const userOtp = await this.userOtpRepository.findOne({
+      where: { userId },
+    });
+    return userOtp ? userOtp.code : null;
+  }
 
   async create(createUserDto: CreateUserDto): Promise<ResponseDto<User | null>> {
     //find by email and if it exist return record

@@ -1,6 +1,6 @@
 import { Controller, Post, Body } from '@nestjs/common';
 import { AuthService } from './auth.service';
-import { LoginUserDto } from '../../model/dtos/login-user.dto';
+import { ConfirmPasswordResetUserDto, LoginUserDto, PasswordResetUserDto } from '../../model/dtos/login-user.dto';
 import { ApiTags } from '@nestjs/swagger';
 
 @ApiTags('auth')
@@ -12,6 +12,16 @@ export class AuthController {
   async login(@Body() loginDto: LoginUserDto) {
     const { email, password } = loginDto;
     return this.authService.login(email, password);
+  }
+  @Post('initiateresetpassword')
+  async initiateresetpassword(@Body() loginDto: PasswordResetUserDto) {
+    const { email } = loginDto;
+    return this.authService.resetpassword(email);
+  }
+  @Post('confirmresetpassword')
+  async confirmresetpassword(@Body() loginDto: ConfirmPasswordResetUserDto) {
+    const { email, otp, newpassword } = loginDto;
+    return this.authService.confirmresetpassword(email, otp, newpassword);
   }
 
   

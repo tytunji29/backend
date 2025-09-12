@@ -6,6 +6,7 @@ import { AuthModule } from './auth/auth.module';
 import { User } from './model/user.entity';
 import { Product } from './model/product.entity';
 import { Transaction } from './model/transaction.entity';
+import { UserVerification } from './model/userverification';
 
 @Module({
   imports: [
@@ -13,7 +14,7 @@ import { Transaction } from './model/transaction.entity';
     TypeOrmModule.forRoot({
       type: 'postgres',
       url: process.env.DATABASE_URL,
-      entities: [User, Transaction, Product],
+      entities: [User, Transaction, Product,UserVerification],
       synchronize: true,
       ssl: { rejectUnauthorized: false },
     }),
