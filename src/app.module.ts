@@ -3,7 +3,9 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule } from '@nestjs/config';
 import { UserModule } from './user/user.module';
 import { AuthModule } from './auth/auth.module';
-import { User } from './user/entities/user.entity';
+import { User } from './model/user.entity';
+import { Product } from './model/product.entity';
+import { Transaction } from './model/transaction.entity';
 
 @Module({
   imports: [
@@ -11,7 +13,7 @@ import { User } from './user/entities/user.entity';
     TypeOrmModule.forRoot({
       type: 'postgres',
       url: process.env.DATABASE_URL,
-      entities: [User],
+      entities: [User, Transaction, Product],
       synchronize: true,
       ssl: { rejectUnauthorized: false },
     }),

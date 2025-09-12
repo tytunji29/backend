@@ -3,6 +3,7 @@ import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { UserService } from '../../user/services/user/user.service';
 import * as bcrypt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
+import { ResponseDto } from 'src/model/dtos/response.dto';
 
 @Injectable()
 export class AuthService {
@@ -17,7 +18,14 @@ export class AuthService {
     const valid = await bcrypt.compare(password, user.password);
     if (!valid) throw new UnauthorizedException('Invalid credentials');
 
+    // Create JWT payload
     const payload = { email: user.email, sub: user.id, role: user.role };
-    return { access_token: this.jwtService.sign(payload) };
+    const token = this.jwtService.sign(payload);
+
+    // Return the token and user info in the response
+    const response= new ResponseDto ('success', 'Login Successfully',{ access_token: token, user: { id: user.id, email: user.email, role: user.role }});
+   
+    return response;
+
   }
 }
