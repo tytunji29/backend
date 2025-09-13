@@ -1,6 +1,6 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 // Update the import path to the correct location of user.service.ts
-import { UserService } from '../../user/services/user/user.service';
+import { UserService } from '../user/user.service';
 import * as bcrypt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
 import { ResponseDto } from 'src/model/dtos/response.dto';

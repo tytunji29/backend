@@ -3,8 +3,8 @@ import { AuthGuard } from '@nestjs/passport';
 
 // auth.module.ts
 import { Module } from '@nestjs/common';
-import { AuthService } from '../../auth/auth/auth.service';
-import { AuthController } from '../../auth/auth/auth.controller';
+import { AuthService } from '../../auth/auth.service';
+import { AuthController } from '../../auth/auth.controller';
 import { JwtModule } from '@nestjs/jwt';
 import { PassportModule } from '@nestjs/passport';
 import { JwtStrategy } from '../../config/jwtstrategy';
