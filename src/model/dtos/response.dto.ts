@@ -10,3 +10,13 @@ export class ResponseDto<T> {
     this.data = data;
   }
 }
+
+
+
+// user.dto.ts
+export class UserDto {
+  id: number;
+  fullName: string;
+  email: string;
+  role: string;
+}
