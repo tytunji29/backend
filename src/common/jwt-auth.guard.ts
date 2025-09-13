@@ -15,7 +15,7 @@ import { UserModule } from '../user/user.module'
     UserModule,
     PassportModule,
     JwtModule.register({
-      secret: process.env.JWT_SECRET, // use env variable in production
+      secret: 'your_jwt_secret', // use env variable in production
       signOptions: { expiresIn: '1h' },
     }),
   ],
